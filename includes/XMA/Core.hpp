@@ -10,7 +10,11 @@
 #include <XMA/Core/Engine.hpp>
 #include <XMA/Core/Input.hpp>
 #include <XMA/Core/Scene.hpp>
+#include <XMA/Core/Shader.hpp>
+#include <XMA/Core/Shape.hpp>
 #include <XMA/Core/Timer.hpp>
+#include <XMA/Core/Vertex.hpp>
+#include <XMA/Core/VertexBuffer.hpp>
 
 #include <XMA/Core/Controllers/SceneController.hpp>
 

@@ -1,32 +1,23 @@
-#ifndef _XMAGL_CORE_TIMER_HPP
-#define _XMAGL_CORE_TIMER_HPP
+#ifndef _XMAGL_CORE_SHAPE_HPP
+#define _XMAGL_CORE_SHAPE_HPP
 
-#include <XMA/Core/Config.hpp>
+#include <XMA/Core/Vertex.hpp>
 
 namespace XMA { namespace Core {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-class Timer
+struct Shape
 {
-    public:
-
-        Timer();
-
-        virtual ~Timer();
-
-        Timer* reset();
-
-        float getSeconds() const;
-
-    private:
-
-        Uint64 m_start { 0 };
+    std::vector<Vertex> vertices;
+    std::vector<Uint32> indices;
 };
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-using TimerUptr = std::unique_ptr<Timer>;
+using ShapeVector = std::vector<Shape>;
+
+using ShapeUptr = std::unique_ptr<Shape>;
 
 // ---------------------------------------------------------------------------------------------------------------------
 

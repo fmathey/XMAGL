@@ -1,4 +1,3 @@
-#include <XMA/Core/Display.hpp>
 #include "@DisplayData.hpp"
 
 namespace XMA { namespace Core {

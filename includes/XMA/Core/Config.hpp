@@ -170,6 +170,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 #define XMA_PRIVATE_DATA() private: struct Data; std::unique_ptr<Data> m_data;
+#define XMA_PROTECTED_DATA() protected: struct Data; std::unique_ptr<Data> m_data;
 #define XMA_THROW(msg) throw std::runtime_error(msg);
 
 namespace XMA

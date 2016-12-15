@@ -1,4 +1,3 @@
-#include <XMA/Core/Input.hpp>
 #include "@InputData.hpp"
 
 namespace XMA { namespace Core {
