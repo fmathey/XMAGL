@@ -3,9 +3,12 @@
 
 #include <XMA/Core/Config.hpp>
 #include <XMA/Core/Controller.hpp>
+#include <XMA/Core/ControllerList.hpp>
 #include <XMA/Core/Display.hpp>
 #include <XMA/Core/Input.hpp>
 #include <XMA/Core/Timer.hpp>
+
+#include <XMA/Core/Controllers/SceneController.hpp>
 
 namespace XMA { namespace Core {
 
@@ -40,7 +43,6 @@ class Engine
 
     private:
 
-        Engine& create();
         Engine& update(float deltaTime);
         Engine& render();
         Engine& dispose();
@@ -69,7 +71,7 @@ class Engine
         Input m_input;
         Timer m_timer;
 
-        ControllerListUptr m_controllers;
+        ControllerListUptr m_controllers { nullptr };
 };
 
 // ---------------------------------------------------------------------------------------------------------------------

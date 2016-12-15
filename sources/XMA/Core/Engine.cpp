@@ -8,19 +8,28 @@ namespace XMA { namespace Core {
 Engine::Engine()
 {
     m_controllers = ControllerListUptr(new ControllerList(*this));
+
+    XMA_LOG("# -----------------------------------");
+    XMA_LOGKEY("OpenGL version", glGetString(GL_VERSION));
+    XMA_LOGKEY("OpenGL shader version", glGetString(GL_SHADING_LANGUAGE_VERSION));
+    XMA_LOG("# -----------------------------------\n");
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 Engine::~Engine()
-{}
+{
+    XMA_LOG("\n# --------------------------");
+    XMA_LOGKEY("Last frames per second", (int) getFramesPerSecond());
+    XMA_LOGKEY("Last frame time", getFrameTime());
+    XMA_LOGKEY("Elapsed time", getElapsedTime());
+    XMA_LOG("# --------------------------");
+}
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 Engine& Engine::run()
 {
-    create();
-
     m_timer.reset();
 
     while(shouldContinue()) {
@@ -54,14 +63,6 @@ Engine& Engine::endFrame()
     m_frameCount++;
     m_framesPerSeconds = m_frameCount / elapseTime;
     m_frameTime = elapseTime - m_frameTimeStart;
-    return *this;
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-Engine& Engine::create()
-{
-    getControllers().create();
     return *this;
 }
 

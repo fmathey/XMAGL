@@ -1,22 +1,26 @@
+#ifndef _XMAGL_CORE_SCENE_HPP
+#define _XMAGL_CORE_SCENE_HPP
+
 #include <XMA/Core/Controller.hpp>
 
 namespace XMA { namespace Core {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-Engine& Controller::getEngine()
+class Scene : public Controller
 {
-    return *m_engine;
-}
+    public:
+
+
+
+};
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-Controller& Controller::setEngine(Engine& engine)
-{
-    m_engine = &engine;
-    return *this;
-}
+using SceneUptr = std::unique_ptr<Scene>;
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 }}
+
+#endif

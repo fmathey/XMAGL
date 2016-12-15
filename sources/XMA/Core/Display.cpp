@@ -41,7 +41,7 @@ Display::Display()
 
     XMA_ASSERT(m_data->context);
 
-#ifdef __APPLE__
+#ifdef XMA_SYSTEM_MACOS
     glewExperimental = GL_TRUE;
     GLenum err = glewInit();
     XMA_ASSERT(GLEW_OK == err);
