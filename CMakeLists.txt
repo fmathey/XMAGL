@@ -29,6 +29,7 @@ include_directories(
     ${SDL2_TTF_INCLUDE_DIR}
     ${GLM_INCLUDE_DIR}
     ${PROJECT_SOURCE_DIR}/includes
+    ${PROJECT_SOURCE_DIR}/externals/tiny_obj_loader
 )
 
 set(
@@ -45,6 +46,7 @@ set(
 file(
     GLOB_RECURSE XMAGL_SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/sources/*.cpp
+    ${PROJECT_SOURCE_DIR}/externals/tiny_obj_loader/*.c*
 )
 
 add_subdirectory(applications)
