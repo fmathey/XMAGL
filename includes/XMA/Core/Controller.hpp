@@ -2,6 +2,7 @@
 #define _XMAGL_CORE_CONTROLLER_HPP
 
 #include <XMA/Core/Config.hpp>
+#include <XMA/Core/Engine.hpp>
 
 namespace XMA { namespace Core {
 

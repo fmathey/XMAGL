@@ -1,0 +1,70 @@
+#ifndef _XMAGL_FPSCAMERACONTROLLER_HPP
+#define _XMAGL_FPSCAMERACONTROLLER_HPP
+
+#include <XMA/Core/Controller.hpp>
+#include <XMA/Core/Camera.hpp>
+#include <XMA/Core/Input.hpp>
+
+namespace XMA { namespace Core { namespace Controllers {
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+class FpsCameraController : public Controller
+{
+    public:
+
+        FpsCameraController(const Camera& camera = Camera());
+
+        virtual void create() override;
+
+        virtual void update(float deltaTime) override;
+
+        FpsCameraController& setFlyingMode(bool state = true)
+        { m_flyingMode = state; return *this; }
+
+        FpsCameraController& setSpeed(float value)
+        { m_speed = value; return *this; }
+
+        FpsCameraController& setSensitivity(float value)
+        { m_sensitivity = value; return *this; }
+
+        FpsCameraController& setVerticalResctriction(float value)
+        { m_verticalResctriction = value; return *this; }
+
+    protected:
+
+        glm::vec3 getOrientation(const glm::vec2& relativeMousePosition);
+
+    private:
+
+        Key::Code m_forwardKey { Key::Z };
+        Key::Code m_backwardKey { Key::S };
+        Key::Code m_leftKey { Key::A };
+        Key::Code m_rightKey { Key::E };
+
+        Camera m_camera;
+
+        bool m_flyingMode { false };
+
+        float m_verticalResctriction = 1.8f;
+
+        glm::vec3 m_position;
+        glm::vec3 m_target;
+        glm::vec3 m_orientation;
+
+        glm::vec3 m_move;
+
+        float m_force { 1.f };
+        float m_speed { 10.f };
+        float m_sensitivity { 20.f };
+        float m_friction { 0.5f };
+
+        float m_phi { 0.f };
+        float m_theta { 0.f };
+};
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+}}}
+
+#endif
