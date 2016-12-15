@@ -56,7 +56,7 @@ class FpsCameraController : public Controller
 
         float m_force { 1.f };
         float m_speed { 10.f };
-        float m_sensitivity { 20.f };
+        float m_sensitivity { 0.3f };
         float m_friction { 0.5f };
 
         float m_phi { 0.f };

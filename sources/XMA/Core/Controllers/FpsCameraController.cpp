@@ -31,7 +31,7 @@ void FpsCameraController::update(float deltaTime)
     // Orientation
 
     if(input.isMouseMove()) {
-        m_orientation = getOrientation(input.getMouseMove() * m_sensitivity * deltaTime);
+        m_orientation = getOrientation(input.getMouseMove() * m_sensitivity);
     }
 
     // Position
