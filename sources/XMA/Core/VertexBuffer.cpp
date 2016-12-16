@@ -82,7 +82,17 @@ StaticVertexBuffer::StaticVertexBuffer(const Shape& shape) : AbstractVertexBuffe
 
 // ---------------------------------------------------------------------------------------------------------------------
 
+StaticVertexBuffer::StaticVertexBuffer(const ShapeVector& shapes) : AbstractVertexBuffer(shapes, GL_STATIC_DRAW)
+{}
+
+// ---------------------------------------------------------------------------------------------------------------------
+
 DynamicVertexBuffer::DynamicVertexBuffer(const Shape& shape) : AbstractVertexBuffer(shape, GL_DYNAMIC_DRAW)
+{}
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+DynamicVertexBuffer::DynamicVertexBuffer(const ShapeVector& shapes) : AbstractVertexBuffer(shapes, GL_DYNAMIC_DRAW)
 {}
 
 // ---------------------------------------------------------------------------------------------------------------------

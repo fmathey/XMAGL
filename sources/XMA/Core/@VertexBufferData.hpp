@@ -106,6 +106,7 @@ struct AbstractVertexBuffer::Data
 
         glBindVertexArray(vertexArrays[shapeID]);
 
+        shader.activate();
         shader.validate();
 
         glDrawElements(

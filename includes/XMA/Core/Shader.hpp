@@ -22,6 +22,7 @@ class Shader
         virtual std::string getVertexSource() const;
         virtual std::string getFragmentSource() const;
 
+        Shader& activate();
         Shader& validate();
 
         GLint getUniformId(const std::string& key) const;
@@ -42,7 +43,6 @@ class Shader
 
     protected:
 
-        Shader& activate();
         Shader& compile(const std::string& vs, const std::string& fs);
 };
 

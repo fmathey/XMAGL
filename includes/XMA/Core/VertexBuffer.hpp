@@ -43,6 +43,7 @@ class StaticVertexBuffer : public AbstractVertexBuffer
     public:
 
         StaticVertexBuffer(const Shape& shape);
+        StaticVertexBuffer(const ShapeVector& shapes);
 };
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -52,6 +53,7 @@ class DynamicVertexBuffer : public AbstractVertexBuffer
     public:
 
         DynamicVertexBuffer(const Shape& shape);
+        DynamicVertexBuffer(const ShapeVector& shapes);
 
         using AbstractVertexBuffer::render;
         using AbstractVertexBuffer::updateShape;
