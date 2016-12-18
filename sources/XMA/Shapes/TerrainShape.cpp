@@ -1,12 +1,10 @@
 #include <XMA/Shapes/TerrainShape.hpp>
 
-using namespace XMA::Core;
-
 struct SDL_Deleter {
-    void operator()(SDL_Surface*  ptr) { if (ptr) SDL_FreeSurface(ptr); }
+    void operator()(SDL_Surface* ptr) { if (ptr) SDL_FreeSurface(ptr); }
 };
 
-using SurfacePtr  = std::unique_ptr<SDL_Surface,  SDL_Deleter>;
+using SurfacePtr = std::unique_ptr<SDL_Surface,  SDL_Deleter>;
 
 static float getHeightFromImage(int x, int y, SurfacePtr& image)
 {
