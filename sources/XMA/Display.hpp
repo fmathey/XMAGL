@@ -1,19 +1,19 @@
 #ifndef _XMAGL_DISPLAY_HPP
 #define _XMAGL_DISPLAY_HPP
 
-#include <XMA/Engine.hpp>
+#include <XMA/Config.hpp>
 
 namespace XMA {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-class Component;
+class Engine;
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 class Display
 {
-    friend class Component;
+    friend class Engine;
 
     public:
 
@@ -29,12 +29,20 @@ class Display
 
     protected:
 
-        Display(display_t& data);
+        Display();
+
+        Display& clear();
+        Display& swap();
 
     protected:
 
-        display_t& m_data;
+        SDL_Window* m_window { nullptr };
+        SDL_GLContext m_context { nullptr };
 };
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+using DisplayUptr = std::unique_ptr<Display>;
 
 // ---------------------------------------------------------------------------------------------------------------------
 

@@ -1,7 +1,7 @@
 #ifndef _XMAGL_INPUT_HPP
 #define _XMAGL_INPUT_HPP
 
-#include <XMA/Engine.hpp>
+#include <XMA/Config.hpp>
 
 namespace XMA {
 
@@ -270,12 +270,14 @@ namespace Key
 
 // ---------------------------------------------------------------------------------------------------------------------
 
+class Engine;
 class Component;
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 class Input
 {
+    friend class Engine;
     friend class Component;
 
     public:
@@ -296,16 +298,26 @@ class Input
 
     protected:
 
-        Input(input_t& data);
+        Input();
 
         bool hasEvent(Uint32 type) const;
 
         SDL_Event getEvent(Uint32 type) const;
 
+    private:
+
+        Input& update();
+
     protected:
 
-        input_t& m_data;
+        const Uint8* m_keyboardState { nullptr };
+
+        std::map<Uint32, SDL_Event> m_events;
 };
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+using InputUptr = std::unique_ptr<Input>;
 
 // ---------------------------------------------------------------------------------------------------------------------
 

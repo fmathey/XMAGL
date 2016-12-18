@@ -1,17 +1,35 @@
 #include <XMA/Input.hpp>
+#include <XMA/Engine.hpp>
 
 namespace XMA {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-Input::Input(input_t& data) : m_data(data)
-{}
+Input::Input()
+{
+
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+Input& Input::update()
+{
+    SDL_Event e;
+
+    m_events.clear();
+
+    while(SDL_PollEvent(&e)) m_events[e.type] = e;
+
+    m_keyboardState = SDL_GetKeyboardState(NULL);
+    
+    return *this;
+}
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 bool Input::isKeyPressed(Key::Code key) const
 {
-    return m_data.keyboardState[SDL_GetScancodeFromKey(key)];
+    return m_keyboardState[SDL_GetScancodeFromKey(key)];
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -110,7 +128,7 @@ glm::vec2 Input::getMousePositionGlobal() const
 
 bool Input::hasEvent(Uint32 type) const
 {
-    return m_data.events.count(type) > 0;
+    return m_events.count(type) > 0;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -118,7 +136,7 @@ bool Input::hasEvent(Uint32 type) const
 SDL_Event Input::getEvent(Uint32 type) const
 {
     XMA_ASSERT(hasEvent(type));
-    return m_data.events.at(type);
+    return m_events.at(type);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

@@ -4,7 +4,7 @@ namespace XMA {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-Entity::Entity(engine_t& engine, Entity* parent) : m_engine(engine), m_parent(parent)
+Entity::Entity(Engine& engine, Entity* parent) : m_engine(engine), m_parent(parent)
 {}
 
 // ---------------------------------------------------------------------------------------------------------------------

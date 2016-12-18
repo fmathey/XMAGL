@@ -8,7 +8,7 @@ namespace XMA {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-struct Engine;
+class Engine;
 
 using ComponentID = std::size_t;
 
@@ -18,7 +18,7 @@ constexpr std::size_t MaxComponents { 32 };
 
 class Entity
 {
-    friend struct Engine;
+    friend class Engine;
 
     public:
 
@@ -69,8 +69,7 @@ class Entity
 
     private:
 
-        Entity(engine_t& engine, Entity* parent = nullptr);
-
+        Entity(Engine& engine, Entity* parent = nullptr);
 
         Entity& update(float deltaTime);
 
@@ -91,7 +90,7 @@ class Entity
 
         Entity* m_parent { nullptr };
 
-        engine_t& m_engine;
+        Engine& m_engine;
 
         bool m_isAlive { true };
 

@@ -12,11 +12,22 @@ Entity& Component::getEntity()
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-Display Component::getDisplay() { return Display(m_engine->display); }
+Display& Component::getDisplay() {
+    return m_engine->display;
+}
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-Input Component::getInput() { return Input(m_engine->input); }
+Input& Component::getInput() {
+    return m_engine->input;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+Camera& Component::getCamera()
+{
+    return m_engine->camera;
+}
 
 // ---------------------------------------------------------------------------------------------------------------------
 
