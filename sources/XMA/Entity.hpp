@@ -29,6 +29,7 @@ class Entity
 
         Entity& addEntity();
 
+
 //        bool hasEntity(Entity* entity) const;
 
 //        bool hasParent() const;

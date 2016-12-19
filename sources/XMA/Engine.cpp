@@ -1,6 +1,7 @@
 #include <XMA/Engine.hpp>
 #include <XMA/Entity.hpp>
 #include <XMA/Timer.hpp>
+#include <XMA/VertexBuffer.hpp>
 
 namespace XMA {
 
@@ -23,12 +24,12 @@ int Engine::run(std::function<void(Entity& entity)> callback)
                 .setPosition(glm::vec3(10, 35, -55))
                 .setAspect(engine.display.getAspect());
 
-        XMA_LOG()
-        XMA_LOG("# ----------------------------------------")
+        XMA_LOG();
+        XMA_LOG("# ----------------------------------------");
         XMA_LOGKEY("OpenGL version", glGetString(GL_VERSION));
         XMA_LOGKEY("OpenGL shader version", glGetString(GL_SHADING_LANGUAGE_VERSION));
-        XMA_LOG("# ----------------------------------------")
-        XMA_LOG()
+        XMA_LOG("# ----------------------------------------");
+        XMA_LOG();
 
         Entity rootEntity(engine);
 
@@ -41,7 +42,15 @@ int Engine::run(std::function<void(Entity& entity)> callback)
         float frameTimeStart { 0 };
         float frameTimePrev { 0 };
 
+        SDL_Event e;
+
+        e.type = SDL_MOUSEMOTION;
+
+        SDL_PushEvent(&e);
+
         while(rootEntity.isAlive()) {
+
+            VertexBuffer::nbDrawCalls = 0;
 
             frameTimeStart = timer.getSeconds();
             engine.deltaTime = (frameTimeStart - frameTimePrev) * engine.timeScale;
@@ -64,13 +73,14 @@ int Engine::run(std::function<void(Entity& entity)> callback)
             engine.frameTime = engine.elapsedTime - frameTimeStart;
         }
 
-        XMA_LOG()
-        XMA_LOG("# ----------------------------------------")
+        XMA_LOG();
+        XMA_LOG("# ----------------------------------------");
+        XMA_LOGKEY("Draw calls", VertexBuffer::nbDrawCalls);
         XMA_LOGKEY("Last FPS", engine.framesPerSeconds);
         XMA_LOGKEY("Last frame time", engine.frameTime);
         XMA_LOGKEY("Elapsed time", timer.getSeconds());
-        XMA_LOG("# ----------------------------------------")
-        XMA_LOG()
+        XMA_LOG("# ----------------------------------------");
+        XMA_LOG();
 
     } catch(const std::bad_alloc&) {
         std::cerr << "Erreur : mémoire insuffisante.\n";

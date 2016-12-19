@@ -1,4 +1,5 @@
 #include <XMA/Entity.hpp>
+#include <XMA/Components/RenderableComponent.hpp>
 
 namespace XMA {
 

@@ -10,61 +10,45 @@ namespace XMA {
 
 using ShapeID = Uint64;
 
+class Engine;
+
 // ---------------------------------------------------------------------------------------------------------------------
 
-class AbstractVertexBuffer
+class VertexBuffer
 {
+    friend class Engine;
+
     XMA_PRIVATE_DATA();
 
     public:
 
-        virtual ~AbstractVertexBuffer();
+        VertexBuffer();
 
-        AbstractVertexBuffer& render(Shader& shader, ShapeID shapeID = 0, GLenum mode = GL_TRIANGLES);
+        virtual ~VertexBuffer();
+
+        ShapeID addShape(const Shape& shape);
 
         bool hasShapeID(ShapeID shapeID) const;
 
-        Uint64 getShapeCount() const;
-
-    protected:
-
-        AbstractVertexBuffer(const Shape& shape, GLenum usage = GL_STATIC_DRAW);
-        AbstractVertexBuffer(const ShapeVector& shapes, GLenum usage = GL_STATIC_DRAW);
-
         Shape& getShape(ShapeID shapeID = 0);
 
-        AbstractVertexBuffer& updateShape(ShapeID shapeID = 0);
+        Uint64 getShapeCount() const;
+
+        VertexBuffer& updateShape(ShapeID shapeID = 0);
+
+        VertexBuffer& generate();
+
+        VertexBuffer& render(Shader& shader, ShapeID shapeID = 0, GLenum mode = GL_TRIANGLES);
+
+
+    private:
+
+        static Uint32 nbDrawCalls;
 };
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-class StaticVertexBuffer : public AbstractVertexBuffer
-{
-    public:
-
-        StaticVertexBuffer(const Shape& shape);
-        StaticVertexBuffer(const ShapeVector& shapes);
-};
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-class DynamicVertexBuffer : public AbstractVertexBuffer
-{
-    public:
-
-        DynamicVertexBuffer(const Shape& shape);
-        DynamicVertexBuffer(const ShapeVector& shapes);
-
-        using AbstractVertexBuffer::render;
-        using AbstractVertexBuffer::updateShape;
-        using AbstractVertexBuffer::getShape;
-};
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-using AbstractVertexBufferUptr = std::unique_ptr<AbstractVertexBuffer>;
-using StaticVertexBufferUptr = std::unique_ptr<StaticVertexBuffer>;
-using DynamicVertexBufferUptr = std::unique_ptr<DynamicVertexBuffer>;
+using VertexBufferUptr = std::unique_ptr<VertexBuffer>;
 
 // ---------------------------------------------------------------------------------------------------------------------
 

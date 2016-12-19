@@ -6,10 +6,12 @@ namespace XMA {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-struct AbstractVertexBuffer::Data
-{
-    GLenum usage;
+Uint32 VertexBuffer::nbDrawCalls;
 
+// ---------------------------------------------------------------------------------------------------------------------
+
+struct VertexBuffer::Data
+{
     GLuint vertexBufferID { 0 };
     GLuint indiceBufferID { 0 };
 
@@ -24,9 +26,6 @@ struct AbstractVertexBuffer::Data
     std::vector<GLsizeiptr> shapeIndicesSizes;
     std::vector<GLsizeiptr> shapeIndicesOffsets;
 
-    Data(GLenum u = GL_STATIC_DRAW) : usage(u)
-    {}
-
     ~Data()
     {
         glDeleteBuffers(1, &vertexBufferID);
@@ -37,15 +36,15 @@ struct AbstractVertexBuffer::Data
         }
     }
 
-    void generateBuffers()
+    void generate()
     {
         glGenBuffers(1, &vertexBufferID);
         glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
-        glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, 0, usage);
+        glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, 0, GL_DYNAMIC_DRAW);
 
         glGenBuffers(1, &indiceBufferID);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiceBufferID);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indiceBufferSize, 0, usage);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indiceBufferSize, 0, GL_STATIC_DRAW);
 
         Vertex vertex;
 
@@ -99,7 +98,7 @@ struct AbstractVertexBuffer::Data
 
     void render(Shader& shader, ShapeID shapeID, GLenum mode)
     {
-        XMA_ASSERT(vertexArrays[shapeID] > 0);
+        XMA_ASSERT_MSG(vertexArrays[shapeID] > 0, "Vertex buffer must be generated");
 
         glBindVertexArray(vertexArrays[shapeID]);
 
@@ -114,9 +113,11 @@ struct AbstractVertexBuffer::Data
         );
 
         glBindVertexArray(0);
+
+        VertexBuffer::nbDrawCalls++;
     }
 
-    void addShape(const Shape& shape)
+    ShapeID addShape(const Shape& shape)
     {
         XMA_ASSERT(shape.vertices.size() > 0);
         XMA_ASSERT(shape.vertices.size() == shape.indices.size());
@@ -131,6 +132,8 @@ struct AbstractVertexBuffer::Data
 
         vertexBufferSize += verticesSize;
         indiceBufferSize += indicesSize;
+
+        return shapes.size() - 1;
     }
 
     void updateShape(ShapeID shapeID)
@@ -151,56 +154,33 @@ struct AbstractVertexBuffer::Data
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-AbstractVertexBuffer::AbstractVertexBuffer(const Shape& shape, GLenum usage)
+VertexBuffer::VertexBuffer()
 {
-    m_data = std::unique_ptr<Data>(new Data(usage));
-
-    m_data->addShape(shape);
-
-    m_data->generateBuffers();
+    m_data = std::unique_ptr<Data>(new Data);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-AbstractVertexBuffer::AbstractVertexBuffer(const ShapeVector& shapes, GLenum usage)
+VertexBuffer::~VertexBuffer()
+{}
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+ShapeID VertexBuffer::addShape(const Shape& shape)
 {
-    m_data = std::unique_ptr<Data>(new Data(usage));
-
-    for(auto& shape : shapes) {
-        m_data->addShape(shape);
-    }
-
-    m_data->generateBuffers();
+    return m_data->addShape(shape);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-AbstractVertexBuffer::~AbstractVertexBuffer()
-{
-
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-AbstractVertexBuffer& AbstractVertexBuffer::render(Shader& shader, ShapeID shapeID, GLenum mode)
-{
-    XMA_ASSERT(hasShapeID(shapeID));
-
-    m_data->render(shader, shapeID, mode);
-
-    return *this;
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-bool AbstractVertexBuffer::hasShapeID(ShapeID shapeID) const
+bool VertexBuffer::hasShapeID(ShapeID shapeID) const
 {
     return shapeID < getShapeCount();
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-Shape& AbstractVertexBuffer::getShape(ShapeID shapeID)
+Shape& VertexBuffer::getShape(ShapeID shapeID)
 {
     XMA_ASSERT(hasShapeID(shapeID));
     return m_data->shapes[shapeID];
@@ -208,7 +188,7 @@ Shape& AbstractVertexBuffer::getShape(ShapeID shapeID)
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-AbstractVertexBuffer& AbstractVertexBuffer::updateShape(ShapeID shapeID)
+VertexBuffer& VertexBuffer::updateShape(ShapeID shapeID)
 {
     XMA_ASSERT(hasShapeID(shapeID));
     m_data->updateShape(shapeID);
@@ -217,30 +197,29 @@ AbstractVertexBuffer& AbstractVertexBuffer::updateShape(ShapeID shapeID)
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-Uint64 AbstractVertexBuffer::getShapeCount() const
+Uint64 VertexBuffer::getShapeCount() const
 {
     return m_data->shapes.size();
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-StaticVertexBuffer::StaticVertexBuffer(const Shape& shape) : AbstractVertexBuffer(shape, GL_STATIC_DRAW)
-{}
+VertexBuffer& VertexBuffer::generate()
+{
+    m_data->generate();
+    return *this;
+}
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-StaticVertexBuffer::StaticVertexBuffer(const ShapeVector& shapes) : AbstractVertexBuffer(shapes, GL_STATIC_DRAW)
-{}
+VertexBuffer& VertexBuffer::render(Shader& shader, ShapeID shapeID, GLenum mode)
+{
+    XMA_ASSERT(hasShapeID(shapeID));
 
-// ---------------------------------------------------------------------------------------------------------------------
+    m_data->render(shader, shapeID, mode);
 
-DynamicVertexBuffer::DynamicVertexBuffer(const Shape& shape) : AbstractVertexBuffer(shape, GL_DYNAMIC_DRAW)
-{}
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-DynamicVertexBuffer::DynamicVertexBuffer(const ShapeVector& shapes) : AbstractVertexBuffer(shapes, GL_DYNAMIC_DRAW)
-{}
+    return *this;
+}
 
 // ---------------------------------------------------------------------------------------------------------------------
 

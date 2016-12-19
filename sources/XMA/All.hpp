@@ -4,6 +4,8 @@
 #include <XMA/Assert.hpp>
 #include <XMA/Camera.hpp>
 #include <XMA/Component.hpp>
+#include <XMA/Components/GridComponent.hpp>
+#include <XMA/Components/Cameras/FirstPersonComponent.hpp>
 #include <XMA/Config.hpp>
 #include <XMA/Debug.hpp>
 #include <XMA/Display.hpp>
