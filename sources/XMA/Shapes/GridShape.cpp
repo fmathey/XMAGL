@@ -1,7 +1,5 @@
 #include <XMA/Shapes/GridShape.hpp>
 
-using namespace XMA::Core;
-
 namespace XMA { namespace Shapes {
 
 // ---------------------------------------------------------------------------------------------------------------------
