@@ -29,6 +29,7 @@ include_directories(
     ${SDL2_TTF_INCLUDE_DIR}
     ${GLM_INCLUDE_DIR}
     ${PROJECT_SOURCE_DIR}/includes
+    ${PROJECT_SOURCE_DIR}/sources
     ${PROJECT_SOURCE_DIR}/externals/tiny_obj_loader
 )
 
