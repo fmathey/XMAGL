@@ -13,14 +13,15 @@ GridComponent::GridComponent(float size)
 
 void GridComponent::create()
 {
-    m_buffer.addShape(Shapes::GridShape(m_size, m_size));
+
+    m_buffer.addShape(Shapes::GridShape(m_size, m_size, glm::vec4(1.f, 1.f, 1.f, 0.2f)));
 
     m_buffer.generate();
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-void GridComponent::update(float deltaTime)
+void GridComponent::render()
 {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);

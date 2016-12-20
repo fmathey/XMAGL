@@ -22,6 +22,7 @@ class Component
 
         virtual void create() {}
         virtual void update(float deltaTime) {}
+        virtual void render() {}
 
         Entity& getEntity();
         Display& getDisplay();

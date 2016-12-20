@@ -1,5 +1,4 @@
 #include <XMA/Entity.hpp>
-#include <XMA/Components/RenderableComponent.hpp>
 
 namespace XMA {
 
@@ -70,6 +69,8 @@ Entity& Entity::update(float deltaTime)
     for(auto& c : m_components) c->update(deltaTime);
 
     for(auto& e : m_entities) e->update(deltaTime);
+
+    for(auto& c : m_components) c->render();
 
     return *this;
 }

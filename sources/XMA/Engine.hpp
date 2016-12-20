@@ -17,6 +17,7 @@ class Component;
 
 class Engine
 {
+    friend class Entity;
     friend class Component;
 
     public:

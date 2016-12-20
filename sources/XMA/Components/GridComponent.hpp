@@ -3,8 +3,8 @@
 
 #include <XMA/Component.hpp>
 #include <XMA/Entity.hpp>
-#include <XMA/Shaders/GridShader.hpp>
 #include <XMA/VertexBuffer.hpp>
+#include <XMA/Shaders/FlatVertexColorShader.hpp>
 
 namespace XMA { namespace Components {
 
@@ -17,12 +17,12 @@ class GridComponent : public Component
         GridComponent(float size = 50.f);
 
         virtual void create() override;
-        virtual void update(float deltaTime) override;
+        virtual void render() override;
 
     private:
 
         VertexBuffer m_buffer;
-        Shaders::GridShader m_shader;
+        Shaders::FlatVertexColorShader m_shader;
 
         float m_size;
 };
